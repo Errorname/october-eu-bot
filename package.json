@@ -1,10 +1,13 @@
 {
   "name": "october-eu-bot",
   "version": "1.0.0",
-  "description": "Automated Lending Bot for the October.eu Platform",
+  "description": "Semi-automated lending bot for the October.eu platform",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "cli": "node src/usage/cli.js",
+    "deploy:hosting": "firebase deploy --only hosting",
+    "deploy:functions": "cd functions && npm run deploy",
+    "deploy": "npm run deploy:hosting && npm run deploy:functions"
   },
   "repository": {
     "type": "git",

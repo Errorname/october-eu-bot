@@ -1,23 +1,24 @@
-const path = require('path')
-const inquirer = require('inquirer')
 const fetch = require('./fetch')
-const { readFile, writeFile } = require('./utils')
+const { readSession, writeSession, waitCode } = require('./usage/utils')
 
 const getSession = async () => {
   let session
 
   try {
-    session = await readFile(path.join(__dirname, '../data/session.json'))
+    // Get cached session
+    session = await readSession()
 
+    // Fetch updated session
     session = await fetch(session)('https://api.october.eu/sessions/' + session.id).then(data => {
       if (data.errors || data.error) {
         throw new Error('Invalid session')
       }
       return data.session
     })
-  } catch {
+  } catch (e) {
     console.log('Missing or invalid session. Requesting a new one...')
 
+    // Fetch new session
     session = await fetch(null)('https://api.october.eu/sessions', {
       email: process.env.OCTOBER_EMAIL,
       password: process.env.OCTOBER_PASSWORD,
@@ -26,10 +27,11 @@ const getSession = async () => {
   }
 
   if (!session) {
-    throw new Error('???')
+    throw new Error('No session available')
   }
 
-  await writeFile(path.join(__dirname, '../data/session.json'), session)
+  // Update session
+  await writeSession(session)
 
   return session
 }
@@ -40,14 +42,11 @@ const secureSession = async session => {
 
   await fetch(session)(`https://api.october.eu/sessions/${session.id}`, { secured: true })
 
-  const { code } = await inquirer.prompt([
-    {
-      name: 'code',
-      message: 'SMS Code for validation:'
-    }
-  ])
+  const code = await waitCode()
 
   await fetch(session)(`https://api.october.eu/sessions/${session.id}`, { code })
+
+  session.secured = true
 }
 
 module.exports = { getSession, secureSession }

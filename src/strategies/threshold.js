@@ -20,6 +20,7 @@ module.exports = strategies => {
         .filter(project => project.rate >= rate)
         .map(project => ({
           projectId: project.id,
+          projectName: project.name,
           amount: amount * 100
         }))
   }

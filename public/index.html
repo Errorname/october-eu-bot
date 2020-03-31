@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>October.eu bot</title>
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css" />
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        display: flex;
+        background-color: #eee;
+        align-items: center;
+        justify-content: center;
+      }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-group">
+      <h1>October.eu bot</h1>
+      <input
+        class="form-input input-lg"
+        type="password"
+        placeholder="Password"
+        name="password"
+        aria-label="Password"
+        autocomplete="current-password"
+      />
+      <br />
+      <input
+        class="form-input input-lg"
+        type="text"
+        placeholder="Code"
+        name="code"
+        aria-label="SMS code"
+        autocomplete="off"
+      /><br />
+      <p class="form-input-hint" style="display: none;"></p>
+      <button type="button" class="btn btn-primary">Send code</button>
+    </div>
+    <script>
+      document.querySelector('button').addEventListener('click', () => {
+        const passwordInput = document.querySelector('input[name="password"]')
+        const codeInput = document.querySelector('input[name="code"]')
+        const hint = document.querySelector('.form-input-hint')
+        const formGroup = document.querySelector('.form-group')
+
+        hint.style.display = 'none'
+        formGroup.classList.remove('has-error', 'has-success')
+
+        fetch('https://europe-west1-october-eu-bot.cloudfunctions.net/registerValidationCode', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ password: passwordInput.value, code: codeInput.value })
+        })
+          .then(r => r.json())
+          .then(({ ok, error }) => {
+            if (error) {
+              hint.innerText = error
+              hint.style.display = 'initial'
+              formGroup.classList.add('has-error')
+            } else if (ok) {
+              hint.innerText = 'Successfully sent code!'
+              hint.style.display = 'initial'
+              formGroup.classList.add('has-success')
+            }
+          })
+      })
+    </script>
+  </body>
+</html>

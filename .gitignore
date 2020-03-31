@@ -1,4 +1,8 @@
 .env
+.env.json
 node_modules
 dump
 session.json
+functions/src
+.firebaserc
+.firebase
