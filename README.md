@@ -4,7 +4,7 @@ Semi-automated lending bot for the October.eu platform
 
 **What is October.eu?**
 
-[October.eu](https://october.eu) is an european **crowdlending platform**. It allows anybody living in the EU to lend money directly to Small and Medium Enterprises (SME) across europes, with **interest rates up to 9.9% and no fees.**
+[October.eu](https://october.eu) is a european **crowdlending platform**. It allows anybody living in the EU to lend money directly to Small and Medium Enterprises (SME) across europe, with **interest rates up to 9.9% and no fees.**
 
 > Want to register on October.eu? Use my [referral link](https://app.october.eu/r/TCOURTOISON) to receive 20€ once you credit your account with 500€!
 
@@ -26,7 +26,7 @@ October.eu does not have a public API: `october-eu-bot` only replicates what a u
 
 For security reasons, October.eu implemented a 2-factor authentication that sends an SMS with a code before you are authorized to lend money to a project.
 
-Because of this security, you will need to manually input the code to the bot as soon as you receive it: Either through the CLI, or with a simple web page.
+Because of this security, you will need to manually input the code to the bot as soon as you receive it: Either through the CLI, or with a simple web page (See example: https://october-eu-bot.web.app).
 
 In the end, **you will have only one simple task**: When you receive a code by SMS, submit it to the bot.
 
