@@ -55,7 +55,7 @@
         hint.style.display = 'none'
         formGroup.classList.remove('has-error', 'has-success')
 
-        fetch('https://europe-west1-october-eu-bot.cloudfunctions.net/registerValidationCode', {
+        fetch('https://europe-west1-[FIREBASE_APP_ID].cloudfunctions.net/registerValidationCode', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

@@ -2,7 +2,8 @@
 .env.json
 node_modules
 dump
-session.json
+data/session.json
 functions/src
 .firebaserc
 .firebase
+hosting/public/index.html

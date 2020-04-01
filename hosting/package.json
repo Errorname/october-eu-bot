@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "deploy": "node build.js && firebase deploy --only hosting"
+  }
+}

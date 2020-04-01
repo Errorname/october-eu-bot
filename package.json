@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "cli": "node src/usage/cli.js",
-    "deploy:hosting": "firebase deploy --only hosting",
+    "deploy:hosting": "cd hosting && npm run deploy",
     "deploy:functions": "cd functions && npm run deploy",
     "deploy": "npm run deploy:hosting && npm run deploy:functions"
   },

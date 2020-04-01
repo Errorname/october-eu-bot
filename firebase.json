@@ -4,7 +4,7 @@
   },
   "functions": {},
   "hosting": {
-    "public": "public",
+    "public": "hosting/public",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
