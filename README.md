@@ -1,6 +1,38 @@
-# 💰🤖 october-eu-bot
+<h1 align="center">💰🤖 October-eu-bot</h1>
 
 Semi-automated lending bot for the October.eu platform
+
+**What is October.eu?**
+
+[October.eu](https://october.eu) is an european **crowdlending platform**. It allows anybody living in the EU to lend money directly to Small and Medium Enterprises (SME) across europes, with **interest rates up to 9.9% and no fees.**
+
+> Want to register on October.eu? Use my [referral link](https://app.october.eu/r/TCOURTOISON) to receive 20€ once you credit your account with 500€!
+
+**What is the purpose of the bot?**
+
+As any investor can tell you: _"it is better to invest a small amount in many places than a big amount in a single one."_
+
+The same advice applies to October.eu: Lend a small amount of money into as many project as possible!
+
+However, you may not have the time to follow all the new projects coming into the platform, as well as forgetting when a new project is available.
+
+`october-eu-bot` is built to look for new projects every hour. If a project is available, it will trigger the lending action automatically.
+
+Of course, you may want to define a strategy to choose which projects are valuable to you. With the `october-eu-bot`, you can define the [strategy](#strategies) that best suits you.
+
+**Why "semi-automated"?**
+
+October.eu does not have a public API: `october-eu-bot` only replicates what a user would do on the platform.
+
+For security reasons, October.eu implemented a 2-factor authentication that sends an SMS with a code before you are authorized to lend money to a project.
+
+Because of this security, you will need to manually input the code to the bot as soon as you receive it: Either through the CLI, or with a simple web page.
+
+In the end, **you will have only one simple task**: When you receive a code by SMS, submit it to the bot.
+
+---
+
+Documentation:
 
 - [Usage](#usage)
   - [With the CLI](#with-the-cli)
@@ -12,9 +44,14 @@ Semi-automated lending bot for the October.eu platform
 
 ## Usage
 
+You can use `october-eu-bot` either:
+
+- By manually running it with the CLI every hour
+- By hosting it on firebase
+
 ### With the CLI
 
-Create an `.env` file based on `.env.example` and complete it with your October credentials and the [strategy](#strategies). Then run:
+Create an `.env` file based on `.env.example`. Complete it with your October credentials and the [strategy](#strategies). Then run:
 
 ```
 npm run cli
@@ -103,7 +140,7 @@ Now, wait for a new project to be available on october. If the project is availa
 
 1. Every hours, an IFTTT action calls a firebase function
 2. This firebase function checks for available projects on October
-3. If available projects are found, it will use a user-defined strategy to compute if it should lend to the projects, and how much
+3. If available projects are found, it will use a user-defined [strategy](#strategies) to compute if it should lend to the projects, and how much
 4. If the strategy wants to lend to projects, it will secure the user session (2FA from October sending a code by SMS) and wait
 5. The user will have to go to a webpage to enter the code they received
 6. Once the code is available to the firebase function, it will make the lending requests to October
@@ -127,3 +164,34 @@ THRESHOLD(rate,amount)
 # Example
 THRESHOLD(7,50) # Lend 50€ to all projects with rate >= 7%
 ```
+
+### More strategies...
+
+Have another strategy that you want to implement in `october-eu-bot`?
+
+Great! Please [create an issue](https://github.com/Errorname/october-eu-bot/issues/new) so we can talk about it 🙂
+
+---
+
+## Author
+
+👤 **Thibaud Courtoison**
+
+- Twitter: [@Errorname\_](https://twitter.com/Errorname_)
+- Github: [@Errorname](https://github.com/Errorname)
+
+## Contributions
+
+Contributions, issues, and feature requests are welcome! 🙌
+
+Feel free to check [issues page](https://github.com/Errorname/october-eu-bot/issues).
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
+
+## License
+
+Copyright © 2020 [Thibaud Courtoison](https://github.com/Errorname).
+
+This project is [MIT](https://github.com/Errorname/october-eu-bot/blob/master/LICENSE) licensed.
