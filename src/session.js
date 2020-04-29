@@ -9,7 +9,7 @@ const getSession = async () => {
     session = await readSession()
 
     // Fetch updated session
-    session = await fetch(session)('https://api.october.eu/sessions/' + session.id).then(data => {
+    session = await fetch(session)('https://api.october.eu/sessions/' + session.id).then((data) => {
       if (data.errors || data.error) {
         throw new Error('Invalid session')
       }
@@ -22,8 +22,8 @@ const getSession = async () => {
     session = await fetch(null)('https://api.october.eu/sessions', {
       email: process.env.OCTOBER_EMAIL,
       password: process.env.OCTOBER_PASSWORD,
-      user: null //?
-    }).then(data => data.session)
+      user: null, //?
+    }).then((data) => data.session)
   }
 
   if (!session) {
@@ -36,7 +36,7 @@ const getSession = async () => {
   return session
 }
 
-const secureSession = async session => {
+const secureSession = async (session) => {
   // Already secured
   if (session.secured) return
 

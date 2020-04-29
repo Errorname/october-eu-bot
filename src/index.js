@@ -19,7 +19,7 @@ const main = async () => {
     return {
       availableProjects: [],
       strategyActions: [],
-      remainingCredits: availableCredits
+      remainingCredits: availableCredits,
     }
   }
 
@@ -31,8 +31,9 @@ const main = async () => {
     if (availableCredits < action.amount) {
       action.status = 'unsufficient-credits'
       console.warn(
-        `  ❌ Unsufficient credits (${availableCredits / 100}€) to lend ${action.amount /
-          100}€ to project ${projects.find(p => p.id == action.projectId).name}`
+        `  ❌ Unsufficient credits (${availableCredits / 100}€) to lend ${
+          action.amount / 100
+        }€ to project ${projects.find((p) => p.id == action.projectId).name}`
       )
       continue
     }
@@ -43,7 +44,7 @@ const main = async () => {
       action.status = e.message
       console.warn(
         `  ❌ Unknown error while lending to project ${
-          projects.find(p => p.id == action.projectId).name
+          projects.find((p) => p.id == action.projectId).name
         }`
       )
       console.error(e)
@@ -53,7 +54,7 @@ const main = async () => {
     action.status = 'successful'
     console.log(
       `  ✅ Lended ${action.amount / 100}€ to project ${
-        projects.find(p => p.id == action.projectId).name
+        projects.find((p) => p.id == action.projectId).name
       }`
     )
     availableCredits -= action.amount
@@ -62,7 +63,7 @@ const main = async () => {
   return {
     availableProjects: projects,
     strategyActions: actions,
-    remainingCredits: availableCredits
+    remainingCredits: availableCredits,
   }
 }
 

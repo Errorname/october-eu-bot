@@ -1,9 +1,9 @@
 const fetch = require('./fetch')
 
-const getSummary = session =>
+const getSummary = (session) =>
   fetch(session)(`https://api.october.eu/users/${session.user.id}/summary?finsquare=true`)
 
-const getInvestments = async session => {
+const getInvestments = async (session) => {
   const summary = await getSummary(session)
 
   return summary.investments
@@ -11,5 +11,5 @@ const getInvestments = async session => {
 
 module.exports = {
   getSummary,
-  getInvestments
+  getInvestments,
 }

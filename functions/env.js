@@ -6,7 +6,7 @@ fs.readFile('../.env', 'utf8', (err, data) => {
 
   const env = data
     .split('\n')
-    .filter(x => x)
+    .filter((x) => x)
     .reduce((acc, line) => {
       const key = line.substr(0, line.indexOf('='))
       const val = line.substr(line.indexOf('=') + 1)
@@ -16,7 +16,7 @@ fs.readFile('../.env', 'utf8', (err, data) => {
       return acc
     }, {})
 
-  fs.writeFile('.env.json', JSON.stringify(env, null, 2), 'utf8', err => {
+  fs.writeFile('.env.json', JSON.stringify(env, null, 2), 'utf8', (err) => {
     if (err) throw err
   })
 })

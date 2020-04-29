@@ -1,16 +1,16 @@
 const fs = require('fs')
 
 require('dotenv').config({
-  path: '../.env'
+  path: '../.env',
 })
 
-const readFile = path =>
+const readFile = (path) =>
   new Promise((resolve, reject) =>
     fs.readFile(path, 'utf8', (err, data) => (err ? reject(err) : resolve(data)))
   )
 const writeFile = (path, content) =>
   new Promise((resolve, reject) =>
-    fs.writeFile(path, content, 'utf8', err => (err ? reject(err) : resolve()))
+    fs.writeFile(path, content, 'utf8', (err) => (err ? reject(err) : resolve()))
   )
 
 const build = async () => {

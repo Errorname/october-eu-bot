@@ -5,28 +5,32 @@ const main = require('./src/usage/firebase')
 
 admin.initializeApp()
 
+const cors = (callback) => (req, res) => {
+  res.set('Access-Control-Allow-Origin', '*')
+
+  if (req.method === 'OPTIONS') {
+    res.set('Access-Control-Allow-Methods', 'GET,POST')
+    res.set('Access-Control-Allow-Headers', 'Content-Type')
+    res.status(204).send('')
+    return
+  }
+
+  callback(req, res)
+}
+
 exports.runStrategy = functions
   .region('europe-west1')
   .runWith({
-    timeoutSeconds: 540
+    timeoutSeconds: 540,
   })
-  .https.onRequest(async (request, response) => {
-    // CORS
-    response.set('Access-Control-Allow-Origin', '*')
-    response.set('Access-Control-Allow-Methods', 'GET, PUT, POST, OPTIONS')
-    response.set('Access-Control-Allow-Headers', '*')
+  .https.onRequest(
+    cors(async (request, response) => {
+      response.send(await main())
+    })
+  )
 
-    response.send(await main())
-  })
-
-exports.registerValidationCode = functions
-  .region('europe-west1')
-  .https.onRequest(async (request, response) => {
-    // CORS
-    response.set('Access-Control-Allow-Origin', '*')
-    response.set('Access-Control-Allow-Methods', 'GET, PUT, POST, OPTIONS')
-    response.set('Access-Control-Allow-Headers', '*')
-
+exports.registerValidationCode = functions.region('europe-west1').https.onRequest(
+  cors(async (request, response) => {
     const { password, code } = request.body
 
     if (password != functions.config().env.OCTOBER_PASSWORD) {
@@ -34,9 +38,7 @@ exports.registerValidationCode = functions
       return
     }
 
-    await admin
-      .database()
-      .ref('/validation_code')
-      .set(code)
+    await admin.database().ref('/validation_code').set(code)
     response.send({ ok: true })
   })
+)

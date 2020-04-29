@@ -58,21 +58,25 @@
         fetch('https://europe-west1-[FIREBASE_APP_ID].cloudfunctions.net/registerValidationCode', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ password: passwordInput.value, code: codeInput.value })
+          body: JSON.stringify({ password: passwordInput.value, code: codeInput.value }),
         })
-          .then(r => r.json())
+          .then((r) => r.json())
           .then(({ ok, error }) => {
             if (error) {
-              hint.innerText = error
-              hint.style.display = 'initial'
-              formGroup.classList.add('has-error')
+              throw error
             } else if (ok) {
               hint.innerText = 'Successfully sent code!'
               hint.style.display = 'initial'
               formGroup.classList.add('has-success')
             }
+          })
+          .catch((error) => {
+            console.error(error)
+            hint.innerText = error
+            hint.style.display = 'initial'
+            formGroup.classList.add('has-error')
           })
       })
     </script>

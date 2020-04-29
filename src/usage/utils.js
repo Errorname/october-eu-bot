@@ -1,14 +1,14 @@
 const fs = require('fs')
 const path = require('path')
 
-const readFile = path =>
+const readFile = (path) =>
   new Promise((resolve, reject) =>
     fs.readFile(path, 'utf8', (err, data) => (err ? reject(err) : resolve(JSON.parse(data))))
   )
 
 const writeFile = (path, content) =>
   new Promise((resolve, reject) =>
-    fs.writeFile(path, JSON.stringify(content, null, 2), 'utf8', err =>
+    fs.writeFile(path, JSON.stringify(content, null, 2), 'utf8', (err) =>
       err ? reject(err) : resolve()
     )
   )
@@ -22,19 +22,16 @@ const readSession = () => {
       .database()
       .ref('/session')
       .once('value')
-      .then(snapshot => snapshot.val())
+      .then((snapshot) => snapshot.val())
   }
 }
 
-const writeSession = session => {
+const writeSession = (session) => {
   if (process.env.CLI) {
     return writeFile(path.join(__dirname, '../../data/session.json'), session)
   } else {
     const admin = require('firebase-admin')
-    return admin
-      .database()
-      .ref('/session')
-      .set(session)
+    return admin.database().ref('/session').set(session)
   }
 }
 
@@ -45,18 +42,18 @@ const waitCode = async () => {
       await inquirer.prompt([
         {
           name: 'code',
-          message: 'SMS code for validation:'
-        }
+          message: 'SMS code for validation:',
+        },
       ])
     ).code
   } else {
     const admin = require('firebase-admin')
 
-    const code = await new Promise(resolve =>
+    const code = await new Promise((resolve) =>
       admin
         .database()
         .ref('/validation_code')
-        .on('value', snapshot => {
+        .on('value', (snapshot) => {
           const val = snapshot.val()
           if (val) {
             resolve(val)
@@ -64,10 +61,7 @@ const waitCode = async () => {
         })
     )
 
-    await admin
-      .database()
-      .ref('/validation_code')
-      .remove()
+    await admin.database().ref('/validation_code').remove()
 
     return code
   }
@@ -76,5 +70,5 @@ const waitCode = async () => {
 module.exports = {
   readSession,
   writeSession,
-  waitCode
+  waitCode,
 }

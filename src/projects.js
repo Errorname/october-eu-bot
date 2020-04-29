@@ -2,14 +2,14 @@ const fetch = require('./fetch')
 const { getInvestments } = require('./user')
 const { secureSession } = require('./session')
 
-const getAllProjects = async session =>
-  fetch(session)('https://api.october.eu/projects?limit=15&offset=0').then(data => data.projects)
+const getAllProjects = async (session) =>
+  fetch(session)('https://api.october.eu/projects?limit=15&offset=0').then((data) => data.projects)
 
-const getAvailableProjects = async session => {
+const getAvailableProjects = async (session) => {
   const projects = await getAllProjects(session)
   const investments = await getInvestments(session)
 
-  return projects.filter(project => {
+  return projects.filter((project) => {
     // Confidential
     if (project.confidential) return false
 
@@ -26,7 +26,7 @@ const getAvailableProjects = async session => {
     if (project.totalInvested >= project.amount) return false
 
     // Already invested
-    if (investments.find(investment => investment.project.id == project.id)) return false
+    if (investments.find((investment) => investment.project.id == project.id)) return false
 
     return true
   })
@@ -37,26 +37,29 @@ const makeInvestment = async (session, { projectId, amount }) => {
 
   let transaction = await fetch(session)('https://api.october.eu/transactions', {
     type: 'investment',
-    amount,
+    amount: amount / 100,
     user: null, //?
     project: projectId,
     contract: null, //?
     contractsExport: null, //?
     invoice: null, //?
-    letter: null //?
-  }).then(data => data.transaction)
+    letter: null, //?
+  }).then(({ error, transaction }) => {
+    if (error) throw Error(error)
+    return transaction
+  })
 
   while (['processing', 'draft'].includes(transaction.status)) {
     transaction = await fetch(session)(`https://api.october.eu/transactions/${transaction.id}`)
   }
 
   if (transaction.status != 'incoming') {
-    throw new Error(`unkown-transaction-status`)
+    throw new Error(`unkown-transaction-status: ${transaction.status}`)
   }
 }
 
 module.exports = {
   getAllProjects,
   getAvailableProjects,
-  makeInvestment
+  makeInvestment,
 }

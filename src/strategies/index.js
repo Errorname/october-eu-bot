@@ -10,10 +10,10 @@ const getStrategy = () => {
     throw new Error(`Unknown strategy "${name}"`)
   }
 
-  return strategy(...(params || '').split(',').map(s => s.trim()))
+  return strategy(...(params || '').split(',').map((s) => s.trim()))
 }
 
 module.exports = {
   strategies,
-  getStrategy
+  getStrategy,
 }
