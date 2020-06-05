@@ -16,6 +16,9 @@ const getAvailableProjects = async (session) => {
     // Lease (reserved to institutional)
     if (project.type == 'lease') return false
 
+    // Not available for french investors
+    if (project.deny.includes('fr')) return false
+
     // Expired
     if (Date.parse(project.expirationDate) <= Date.now()) return false
 
