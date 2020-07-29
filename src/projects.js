@@ -57,7 +57,7 @@ const makeInvestment = async (session, { projectId, amount }) => {
   }
 
   if (transaction.status != 'incoming') {
-    throw new Error(`unkown-transaction-status: ${transaction.status}`)
+    throw new Error(`unknown-transaction-status: ${transaction.status}`)
   }
 }
 

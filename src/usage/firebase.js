@@ -1,4 +1,5 @@
 const functions = require('firebase-functions')
+const fetch = require('../fetch')
 const main = require('../index')
 
 Object.entries(functions.config().env || {}).forEach(([key, val]) => {
@@ -28,7 +29,7 @@ module.exports = () =>
     await admin.database().ref('/logs').set(newLogs)
 
     if (process.env.IFTTT_KEY && log.strategyActions.length > 0) {
-      await fetch(
+      await fetch()(
         `https://maker.ifttt.com/trigger/october_eu_bot_summary/with/key/${process.env.IFTTT_KEY}`,
         {
           method: 'POST',

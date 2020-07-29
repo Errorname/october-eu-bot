@@ -51,9 +51,12 @@
         const codeInput = document.querySelector('input[name="code"]')
         const hint = document.querySelector('.form-input-hint')
         const formGroup = document.querySelector('.form-group')
+        const submitButton = document.querySelector('.btn-primary')
 
         hint.style.display = 'none'
         formGroup.classList.remove('has-error', 'has-success')
+        submitButton.innerText = 'Sending code...'
+        submitButton.classList.add('disabled')
 
         fetch('https://europe-west1-[FIREBASE_APP_ID].cloudfunctions.net/registerValidationCode', {
           method: 'POST',
@@ -70,6 +73,8 @@
               hint.innerText = 'Successfully sent code!'
               hint.style.display = 'initial'
               formGroup.classList.add('has-success')
+              submitButton.classList.remove('disabled')
+              submitButton.innerText = 'Send code'
             }
           })
           .catch((error) => {
@@ -77,6 +82,8 @@
             hint.innerText = error
             hint.style.display = 'initial'
             formGroup.classList.add('has-error')
+            submitButton.classList.remove('disabled')
+            submitButton.innerText = 'Send code'
           })
       })
     </script>
