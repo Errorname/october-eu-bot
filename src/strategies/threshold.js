@@ -8,7 +8,7 @@ module.exports = (strategies) => {
   strategies['THRESHOLD'] = (rate, amount) => {
     if (rate === undefined || !amount) {
       throw new Error(
-        `Invalid parameters (amount: ${amount}, rate: ${rate}) for strategy "THRESHOLD"`
+        `Invalid parameters (rate: ${rate}, amount: ${amount}) for strategy "THRESHOLD"`
       )
     }
 

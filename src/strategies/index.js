@@ -1,6 +1,7 @@
 const strategies = {}
 
 require('./threshold')(strategies)
+require('./risklevels')(strategies)
 
 const getStrategy = () => {
   const [_, name, params] = (process.env.STRATEGY || '').match(/(\w*)\((.*)\)/) || []
@@ -10,7 +11,9 @@ const getStrategy = () => {
     throw new Error(`Unknown strategy "${name}"`)
   }
 
-  return strategy(...(params || '').split(',').map((s) => s.trim()))
+  const parsedParams = (params || '').match(/\[.*\]|\".*\"|\d+/g).map((s) => s.trim())
+
+  return strategy(...parsedParams)
 }
 
 module.exports = {

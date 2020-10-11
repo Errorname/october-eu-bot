@@ -39,6 +39,7 @@ Documentation:
   - [Hosted on Firebase](#hosted-on-firebase)
 - [Strategies](#strategies)
   - [Threshold](#threshold)
+  - [Risk levels](#risk-levels)
 
 ---
 
@@ -163,6 +164,19 @@ THRESHOLD(rate,amount)
 
 # Example
 THRESHOLD(7,50) # Lend 50€ to all projects with rate >= 7%
+```
+
+### Risk Levels
+
+This strategy will lend `amount`€ to a project if the risk level is in the `riskLevels` array
+
+Syntax:
+
+```
+RISKLEVELS(riskLevels,amount)
+
+# Example
+RISKLEVELS([A,B+,B],50) # Lend 50€ to all projects with risk level A, B+, or B
 ```
 
 ### More strategies...
